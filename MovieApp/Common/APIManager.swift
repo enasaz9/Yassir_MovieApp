@@ -12,13 +12,15 @@ enum API_Endpoints: String {
     case movieDetails = "movie/%@"
 }
 
-class APIManager {
-    static let shared = APIManager()
     private let baseURL = "https://api.themoviedb.org/3/"
+protocol APIManagerProtocol {
+    func request<T: Codable>(endpoint: String, method: String, parameters: [URLQueryItem]?, mapTo: T.Type, completion: @escaping (Result<T, Error>) -> Void)
+}
+
+class APIManager: APIManagerProtocol {
+
     private let apiKey = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyOWQyY2ExZjhkNDY5ZmNkNzQyM2ViZjhiYjFlNTE5OCIsInN1YiI6IjY1ODZjZjA5YjBjZDIwNTI5YjU3YWJkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ayw7JcZoI2tNBPIoGJa2xeCVYnYtATUgZF8x5_YS9Jg"
-    
-    private init() {}
-    
+        
     func request<T: Codable>(endpoint: String, method: String, parameters: [URLQueryItem]?, mapTo: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         
         var urlComps = URLComponents(string: baseURL + endpoint)!
