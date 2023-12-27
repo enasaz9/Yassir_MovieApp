@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Y0-Ad-Qp3">
                         <rect key="frame" x="2" y="2" width="316" height="126"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPP-k4-Ffq">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPP-k4-Ffq" customClass="CustomImageView" customModule="MovieApp" customModuleProvider="target">
                                 <rect key="frame" x="8" y="13" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="aw4-Vc-zw4"/>
@@ -74,7 +74,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="containerView" destination="3Y0-Ad-Qp3" id="rbq-or-iif"/>
-                <outlet property="posterImageView" destination="TPP-k4-Ffq" id="pd3-vv-4gE"/>
+                <outlet property="posterImageView" destination="TPP-k4-Ffq" id="a2s-xc-MUl"/>
                 <outlet property="releaseDateLabel" destination="fsv-jv-M1Q" id="cIT-uR-VvJ"/>
                 <outlet property="titleLabel" destination="f81-6N-ZNX" id="g7f-Jd-33G"/>
                 <outlet property="voteAverageLabel" destination="Cxx-HW-K1i" id="YG4-yk-8aY"/>

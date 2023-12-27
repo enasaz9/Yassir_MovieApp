@@ -9,7 +9,7 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
-    @IBOutlet private weak var posterImageView: UIImageView!
+    @IBOutlet private weak var posterImageView: CustomImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var releaseDateLabel: UILabel!
     @IBOutlet private weak var voteAverageLabel: UILabel!
@@ -26,5 +26,9 @@ class MovieTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         releaseDateLabel.text = movie.releaseDate
         voteAverageLabel.text = "\(Int(movie.voteAverage))/10"
+        
+        if let url = URL(string: "\(BaseURLs.images.rawValue)w92\(movie.posterPath)") {
+            posterImageView.loadImage(from: url)
+        }
     }
 }

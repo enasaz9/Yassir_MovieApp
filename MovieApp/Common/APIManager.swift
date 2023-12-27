@@ -12,7 +12,11 @@ enum API_Endpoints: String {
     case movieDetails = "movie/%@"
 }
 
-    private let baseURL = "https://api.themoviedb.org/3/"
+enum BaseURLs: String {
+    case APIs = "https://api.themoviedb.org/3/"
+    case images = "https://image.tmdb.org/t/p/"
+}
+
 protocol APIManagerProtocol {
     func request<T: Codable>(endpoint: String, method: String, parameters: [URLQueryItem]?, mapTo: T.Type, completion: @escaping (Result<T, Error>) -> Void)
 }
@@ -23,7 +27,7 @@ class APIManager: APIManagerProtocol {
         
     func request<T: Codable>(endpoint: String, method: String, parameters: [URLQueryItem]?, mapTo: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         
-        var urlComps = URLComponents(string: baseURL + endpoint)!
+        var urlComps = URLComponents(string: BaseURLs.APIs.rawValue + endpoint)!
         urlComps.queryItems = parameters
         
         let headers = [
