@@ -8,13 +8,13 @@
 import UIKit
 
 class MoviesListViewController: UIViewController {
-
+    
     @IBOutlet private weak var tableView: UITableView!
     private var viewModel = MoviesListViewModel()
     private var moviesList: [MovieModel] = []
-    private let spinner = UIActivityIndicatorView(style: .medium)
+    private let spinner = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Movies List"
@@ -86,9 +86,14 @@ extension MoviesListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: movie)
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt")
-        print(indexPath.row)
+        let selectedMovie = moviesList[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let movieDetailsVC = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? MovieDetailsViewController else {
+            fatalError("Unable to Instantiate Movie Details View Controller")
+        }
+        movieDetailsVC.viewModel = MovieDetailsViewModel(selectedMovie: selectedMovie)
+        navigationController?.pushViewController(movieDetailsVC, animated: true)
     }
 }
