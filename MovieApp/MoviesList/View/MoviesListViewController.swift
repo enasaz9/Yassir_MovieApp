@@ -93,7 +93,7 @@ extension MoviesListViewController: UITableViewDataSource, UITableViewDelegate {
         guard let movieDetailsVC = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? MovieDetailsViewController else {
             fatalError("Unable to Instantiate Movie Details View Controller")
         }
-        movieDetailsVC.viewModel = MovieDetailsViewModel(selectedMovie: selectedMovie)
+        movieDetailsVC.viewModel = MovieDetailsViewModel(selectedMovieID: "\(selectedMovie.id)")
         navigationController?.pushViewController(movieDetailsVC, animated: true)
     }
 }
