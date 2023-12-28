@@ -13,17 +13,20 @@ class CustomImageView: UIImageView {
     let spinner = UIActivityIndicatorView(style: .medium)
     
     func loadImage (from url: URL) {
+        // set image to nil not to show previous images (refresh image value)
         image = nil
         
         if let task = task {
             task.cancel()
         }
         
+        // get image from cashe if previously stored
         if let imageFromCache = imageCache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
             self.image = imageFromCache
             return
         }
         
+        // show spinner while loading the image
         addSpinner()
         task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
@@ -33,9 +36,13 @@ class CustomImageView: UIImageView {
                 print("couldn't load image from url: \(url)")
                 return
             }
+            
+            // save image in cashe with its url as a key
             imageCache.setObject(newImage, forKey: url.absoluteString as AnyObject)
             DispatchQueue.main.async {
                 self.image = newImage
+                
+                // remove spinner after setting the image
                 self.removeSpinner()
             }
         }

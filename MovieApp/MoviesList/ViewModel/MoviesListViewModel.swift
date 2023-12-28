@@ -47,6 +47,7 @@ final class MoviesListViewModel: MoviesListViewModelProtocols {
             moviesReceived = []
         }
         
+        // load pages untill we receive the last page
         if currentPage <= self.totalPages {
             self.showLoading.value = true
             

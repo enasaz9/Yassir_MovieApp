@@ -18,11 +18,12 @@ class MovieDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSpinner()
-        bind(to: viewModel)
-        viewModel.loadMovieDetails()
+        setupSpinner()  // show spinner while loading data
+        bind(to: viewModel) // bind viewModel observables
+        viewModel.loadMovieDetails()    // call load movie's details API
     }
     
+    // setup loading indicator
     private func setupSpinner() {
         spinner.hidesWhenStopped = true
         view.addSubview(spinner)
@@ -33,18 +34,18 @@ class MovieDetailsViewController: UIViewController {
     
     private func bind(to viewModel: MovieDetailsViewModel) {
         viewModel.movieDetails.observe(on: self) { [weak self] movie in
-            if movie.id != 0 {
-                self?.titleLabel.text = movie.title
-                self?.releaseDateLabel.text = DateFormatterHelper.formateDateString(movie.releaseDate)
-                self?.overviewTextView.text = movie.overview
-                
-                if let url = URL(string: "\(BaseURLs.images.rawValue)w500\(movie.posterPath)") {
-                    self?.posterImageView.loadImage(from: url)
-                }
+            // bind movie details on outlets
+            self?.titleLabel.text = movie.title
+            self?.releaseDateLabel.text = DateFormatterHelper.formateDateString(movie.releaseDate)
+            self?.overviewTextView.text = movie.overview
+            
+            if let url = URL(string: "\(BaseURLs.images.rawValue)w500\(movie.posterPath)") {
+                self?.posterImageView.loadImage(from: url)
             }
         }
         
         viewModel.showLoading.observe(on: self) { [weak self] isLoading in
+            // show/hide spinner
             if isLoading {
                 self?.spinner.startAnimating()
             } else {
@@ -53,6 +54,7 @@ class MovieDetailsViewController: UIViewController {
         }
         
         viewModel.error.observe(on: self) { [weak self] error in
+            // show error message if exists
             if !error.isEmpty {
                 let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in

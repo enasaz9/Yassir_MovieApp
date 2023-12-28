@@ -19,13 +19,15 @@ class MoviesListViewController: UIViewController {
         super.viewDidLoad()
         title = "Movies List"
         initialSetup()
-        bind(to: viewModel)
-        viewModel.loadData(pullToRefresh: true)
-        setupRefreshControl()
+        bind(to: viewModel) // bind viewModel observables
+        viewModel.loadData(pullToRefresh: true) // call load movies list API
+        setupRefreshControl()   // setup pull to refresh
     }
     
     private func initialSetup() {
         tableView.registerNib(MovieTableViewCell.self)
+        
+        // setup loading indicator
         spinner.hidesWhenStopped = true
         view.addSubview(spinner)
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +42,7 @@ class MoviesListViewController: UIViewController {
         }
         
         viewModel.showLoading.observe(on: self) { [weak self] isLoading in
+            // show/hide spinner
             if isLoading {
                 self?.spinner.startAnimating()
             } else {
@@ -49,6 +52,7 @@ class MoviesListViewController: UIViewController {
         }
         
         viewModel.error.observe(on: self) { [weak self] error in
+            // show error message if exists
             if !error.isEmpty {
                 let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
@@ -58,7 +62,7 @@ class MoviesListViewController: UIViewController {
             }
         }
     }
-    
+    // setup pull to refresh
     func setupRefreshControl() {
         refreshControl.addTarget(self, action: #selector(refershControlSelector), for: .valueChanged)
         tableView?.refreshControl = refreshControl
@@ -69,12 +73,15 @@ class MoviesListViewController: UIViewController {
     }
 }
 
+// MARK: UITableViewDataSource, UITableViewDelegate
+
 extension MoviesListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesList.count
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // load more functionality to provide pagination
         if moviesList.count > 1, indexPath.item == moviesList.count - 1 {
             viewModel.loadData(pullToRefresh: false)
         }
