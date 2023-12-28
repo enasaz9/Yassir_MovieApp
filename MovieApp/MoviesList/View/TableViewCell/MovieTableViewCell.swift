@@ -24,7 +24,7 @@ class MovieTableViewCell: UITableViewCell {
     
     func configure(with movie: MovieModel) {
         titleLabel.text = movie.title
-        releaseDateLabel.text = movie.releaseDate
+        releaseDateLabel.text = DateFormatterHelper.formateDateString(movie.releaseDate)
         voteAverageLabel.text = "\(Int(movie.voteAverage))/10"
         
         if let url = URL(string: "\(BaseURLs.images.rawValue)w92\(movie.posterPath)") {

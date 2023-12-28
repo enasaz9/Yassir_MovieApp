@@ -23,7 +23,7 @@ class MovieDetailsViewController: UIViewController {
     private func bind(to viewModel: MovieDetailsViewModel) {
         viewModel.selectedMovie.observe(on: self) { [weak self] movie in
             self?.titleLabel.text = movie.title
-            self?.releaseDateLabel.text = movie.releaseDate
+            self?.releaseDateLabel.text = DateFormatterHelper.formateDateString(movie.releaseDate)
             self?.overviewTextView.text = movie.overview
             
             if let url = URL(string: "\(BaseURLs.images.rawValue)w92\(movie.posterPath)") {
